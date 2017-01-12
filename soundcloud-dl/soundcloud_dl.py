@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 ################################################################################
 # soundcloud-dl - Download tracks from Soundcloud                              #
 # Copyright (C) 2017  Md Safiyat Reza                                          #
@@ -18,5 +19,24 @@
 ################################################################################
 
 from __future__ import print_function
+from parser import init_command_parser
 from parser import Config
 import os
+import sys
+
+
+function_mapper = {'config_init': Config.init_config,
+                   'config_edit': Config.edit_config,
+                   }
+
+
+def main():
+    parser = init_command_parser()
+    args = parser.parse_args()
+    func = args.command + '_' + args.sub_command
+    c = Config()
+    function_mapper[func](c)
+
+
+if __name__ == '__main__':
+    sys.exit(main())
